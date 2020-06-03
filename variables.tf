@@ -5,7 +5,7 @@ variable "key" {
 
 variable "name_prefix" {
   description = "The prefix for all created resources"
-  default     = "tfstate-"
+  default     = "tfstate"
 }
 
 variable "resource_group_name" {
