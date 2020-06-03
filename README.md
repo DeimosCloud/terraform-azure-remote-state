@@ -2,13 +2,12 @@
 A terraform module to automate creation and configuration of backend using azure blob
 
 
-## Usage example
+## Basic Usage 
 
 ```hcl
 module "remote_state_locking" {
   source   = "git::https://gitlab.com/deimosdev/tooling/terraform-modules/terraform-remote-state-azure"
-  region   = var.aws_region
-  use_lock = false
+  location = var.aws_region
 }
 ```
 

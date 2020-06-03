@@ -27,7 +27,7 @@ locals {
 resource "azurerm_resource_group" "tfstate" {
   count    = var.resource_group_name == "" ? 1 : 0
   name     = local.resource_group_name
-  location = var.resource_group_location
+  location = var.location
 }
 
 # Create a storage account only if it has not been passed as variable
@@ -35,7 +35,7 @@ resource "azurerm_storage_account" "tfstate" {
   count                    = var.storage_account_name == "" ? 1 : 0
   name                     = local.storage_account_name
   resource_group_name      = var.resource_group_name == "" ? azurerm_resource_group.tfstate.*.name : var.resource_group_name
-  location                 = var.resource_group_location
+  location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }

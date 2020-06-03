@@ -13,7 +13,7 @@ variable "resource_group_name" {
   default     = ""
 }
 
-variable "resource_group_location" {
+variable "location" {
   description = "The location of resource group"
 }
 
