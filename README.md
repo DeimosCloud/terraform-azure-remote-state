@@ -7,7 +7,7 @@ A terraform module to automate creation and configuration of backend using azure
 ```hcl
 module "remote_state_locking" {
   source   = "git::https://gitlab.com/deimosdev/tooling/terraform-modules/terraform-remote-state-azure"
-  location = var.aws_region
+  location = azurerm_resource_group.resource.location
 }
 ```
 
@@ -17,6 +17,10 @@ module "remote_state_locking" {
 |------|---------|
 | terraform | >= 0.12 |
 | azurerm | ~> 2.0.0 |
+| local | >= 1.2 |
+| null | >= 2.1 |
+| random | >= 2.1 |
+| template | >= 2.1 |
 
 ## Providers
 
@@ -34,12 +38,17 @@ module "remote_state_locking" {
 | backend\_output\_path | The default file to output backend configuration to | `string` | `"./backend.tf"` | no |
 | container\_name | The Name of the Storage Container within the Storage Account. | `string` | `""` | no |
 | key | The name of the Blob used to retrieve/store Terraform's State file inside the Storage Container. | `string` | `"global/terrform.tfstate"` | no |
-| name\_prefix | The prefix for all created resources | `string` | `"tfstate-"` | no |
-| resource\_group\_location | The location of resource group | `any` | n/a | yes |
+| location | The location of resource group | `any` | n/a | yes |
+| name\_prefix | The prefix for all created resources | `string` | `"tfstate"` | no |
 | resource\_group\_name | The Name of the Resource Group in which the Storage Account exists. | `string` | `""` | no |
 | storage\_account\_name | The name of the storage account | `string` | `""` | no |
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| key | The name of the Blob created to retrieve/store Terraform's State file inside the Storage Container |
+| resource\_group | Name of created resource group |
+| storage\_account | Name of created storage account |
+| storage\_container | Name of created storage container |
 
