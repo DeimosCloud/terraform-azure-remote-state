@@ -10,6 +10,7 @@ module "remote_state_locking" {
   location = azurerm_resource_group.resource.location
 }
 ```
+This creates a `backend.tf` file in the specified `backend_output_path` (default: project directory).
 
 ## Requirements
 
