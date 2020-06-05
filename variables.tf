@@ -10,7 +10,6 @@ variable "name_prefix" {
 
 variable "resource_group_name" {
   description = "The Name of the Resource Group in which the Storage Account exists."
-  default     = ""
 }
 
 variable "location" {

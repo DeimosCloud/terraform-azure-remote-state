@@ -5,11 +5,44 @@ A terraform module to automate creation and configuration of backend using azure
 ## Basic Usage 
 
 ```hcl
+resource "azurerm_resource_group" "tfstate" {
+  name     = var.resource_group_name
+  location = var.location
+}
+
 module "remote_state_locking" {
   source   = "git::https://gitlab.com/deimosdev/tooling/terraform-modules/terraform-remote-state-azure"
-  location = azurerm_resource_group.resource.location
+
+  location            = azurerm_resource_group.resource.location
+  resource_group_name = azurerm_resource_group.tfstate.name
 }
 ```
+
+
+```hcl
+resource "azurerm_resource_group" "tfstate" {
+  name     = var.resource_group_name
+  location = var.location
+}
+
+# You can pass storage account 
+resource "azurerm_storage_account" "tfstate" {
+  name                     = var.storage_account_name
+  resource_group_name      = azurerm_resource_group.tfstate.name
+  location                 = azurerm_resource_group.tfstate.name
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
+
+module "remote_state_locking" {
+  source   = "git::https://gitlab.com/deimosdev/tooling/terraform-modules/terraform-remote-state-azure"
+
+  location             = azurerm_resource_group.resource.location
+  resource_group_name  = azurerm_resource_group.tfstate.name
+  storage_account_name = azurerm_storage_account.tfstate.name
+}
+```
+
 This creates a `backend.tf` file in the specified `backend_output_path` (default: project directory). Apply the configured backend by running `terraform init` again
 
 ## Requirements

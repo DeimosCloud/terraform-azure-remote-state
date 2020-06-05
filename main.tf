@@ -22,25 +22,17 @@ resource "random_string" "this" {
 
 ##### Locals
 locals {
-  resource_group_name = "${var.name_prefix}-${random_id.this.hex}"
   # Storage account names must be between 3 and 24 characters in length and may contain numbers and lowercase letters only
   storage_account_name = "${var.name_prefix}${random_string.this.result}"
   container_name       = "${var.name_prefix}-${random_id.this.hex}"
 }
 
 
-# Create a new resource group for storing state if resource_group_name is not passed as variable
-resource "azurerm_resource_group" "tfstate" {
-  count    = var.resource_group_name == "" ? 1 : 0
-  name     = local.resource_group_name
-  location = var.location
-}
-
 # Create a storage account only if it has not been passed as variable
 resource "azurerm_storage_account" "tfstate" {
   count                    = var.storage_account_name == "" ? 1 : 0
   name                     = local.storage_account_name
-  resource_group_name      = var.resource_group_name == "" ? azurerm_resource_group.tfstate[0].name : var.resource_group_name
+  resource_group_name      = var.resource_group_name
   location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
@@ -58,7 +50,7 @@ resource "azurerm_storage_container" "tfstate" {
 data "template_file" "remote_state" {
   template = "${file("${path.module}/templates/remote_state.tpl")}"
   vars = {
-    resource_group_name  = var.resource_group_name == "" ? azurerm_resource_group.tfstate[0].name : var.resource_group_name
+    resource_group_name  = var.resource_group_name
     storage_account_name = var.storage_account_name == "" ? azurerm_storage_account.tfstate[0].name : var.storage_account_name
     container_name       = var.container_name == "" ? azurerm_storage_container.tfstate[0].name : var.container_name
     key                  = var.key

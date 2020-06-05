@@ -5,14 +5,7 @@ output "storage_container" {
   depends_on = [azurerm_storage_container.tfstate]
 }
 
-output "resource_group" {
-  value       = azurerm_resource_group.tfstate.*.name
-  description = "Name of created resource group"
-
-  depends_on = [azurerm_resource_group.tfstate]
-}
-
-output "storage_account" {
+output "storage_account_name" {
   value       = azurerm_storage_account.tfstate.*.name
   description = "Name of created storage account"
 
