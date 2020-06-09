@@ -12,10 +12,6 @@ variable "resource_group_name" {
   description = "The Name of the Resource Group in which the Storage Account exists."
 }
 
-variable "location" {
-  description = "The location of resource group"
-}
-
 variable "container_name" {
   description = "The Name of the Storage Container within the Storage Account."
   default     = ""
