@@ -2,7 +2,7 @@
 A terraform module to automate creation and configuration of backend using azure blob
 
 
-## Basic Usage 
+## Basic Usage
 
 ```hcl
 resource "azurerm_resource_group" "tfstate" {
@@ -24,7 +24,7 @@ resource "azurerm_resource_group" "tfstate" {
   location = var.location
 }
 
-# You can pass storage account 
+# You can pass storage account
 resource "azurerm_storage_account" "tfstate" {
   name                     = var.storage_account_name
   resource_group_name      = azurerm_resource_group.tfstate.name
@@ -43,25 +43,43 @@ module "remote_state_locking" {
 
 This creates a `backend.tf` file in the specified `backend_output_path` (default: project directory). Apply the configured backend by running `terraform init` again
 
+## Doc generation
+
+Code formatting and documentation for variables and outputs is generated using [pre-commit-terraform hooks](https://github.com/antonbabenko/pre-commit-terraform) which uses [terraform-docs](https://github.com/segmentio/terraform-docs).
+
+Follow [these instructions](https://github.com/antonbabenko/pre-commit-terraform#how-to-install) to install pre-commit locally.
+
+And install `terraform-docs` with
+```bash
+go get github.com/segmentio/terraform-docs
+```
+or
+```bash
+brew install terraform-docs.
+```
+
+## Contributing
+
+Report issues/questions/feature requests on in the issues section.
+
+Full contributing guidelines are covered [here](CONTRIBUTING.md).
+
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | terraform | >= 0.12 |
 | azurerm | >= 2.0.0 |
-| local | >= 1.2 |
-| null | >= 2.1 |
-| random | >= 2.1 |
-| template | >= 2.1 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | azurerm | >= 2.0.0 |
-| null | >= 2.1 |
-| random | >= 2.1 |
-| template | >= 2.1 |
+| null | n/a |
+| random | n/a |
+| template | n/a |
 
 ## Inputs
 
@@ -82,3 +100,4 @@ This creates a `backend.tf` file in the specified `backend_output_path` (default
 | storage\_account\_name | Name of created storage account |
 | storage\_container | Name of created storage container |
 
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
