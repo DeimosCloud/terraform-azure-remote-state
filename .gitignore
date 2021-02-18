@@ -1,0 +1,17 @@
+*.tfvars
+*.tfstate*
+.terraform/
+**/inspec.lock
+*.gem
+Gemfile.lock
+terraform.tfstate.d/
+eks-admin-cluster-role-binding.yaml
+eks-admin-service-account.yaml
+.idea/
+*.iml
+config-map-aws-auth*.yaml
+kubeconfig_*
+*.swp
+
+# For passing local validate
+providers_test_az.tf

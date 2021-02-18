@@ -1,15 +1,3 @@
-terraform {
-  required_version = ">= 0.12"
-
-  required_providers {
-    azurerm  = ">= 2.0.0"
-    local    = ">= 1.2"
-    null     = ">= 2.1"
-    template = ">= 2.1"
-    random   = ">= 2.1"
-  }
-}
-
 resource "random_id" "this" {
   byte_length = "10"
 }
@@ -36,8 +24,8 @@ locals {
 resource "azurerm_storage_account" "tfstate" {
   count                    = var.storage_account_name == "" ? 1 : 0
   name                     = local.storage_account_name
-  resource_group_name      = data.azurerm_resource_group.name
-  location                 = data.azurerm_resource_group.location
+  resource_group_name      = data.azurerm_resource_group.remote_state.name
+  location                 = data.azurerm_resource_group.remote_state.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
@@ -54,7 +42,7 @@ resource "azurerm_storage_container" "tfstate" {
 data "template_file" "remote_state" {
   template = "${file("${path.module}/templates/remote_state.tpl")}"
   vars = {
-    resource_group_name  = data.azurerm_resource_group.name
+    resource_group_name  = data.azurerm_resource_group.remote_state.name
     storage_account_name = var.storage_account_name == "" ? azurerm_storage_account.tfstate[0].name : var.storage_account_name
     container_name       = var.container_name == "" ? azurerm_storage_container.tfstate[0].name : var.container_name
     key                  = var.key
