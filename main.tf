@@ -49,8 +49,7 @@ data "template_file" "remote_state" {
   }
 }
 
-resource "null_resource" "remote_state_locks" {
-  provisioner "local-exec" {
-    command = "sleep 20;cat > ${var.backend_output_path}<<EOL\n${data.template_file.remote_state.rendered}"
-  }
+resource "local_file" "remote_state_locks" {
+  content  = data.template_file.remote_state.rendered
+  filename = var.backend_output_path
 }
