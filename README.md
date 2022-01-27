@@ -43,21 +43,6 @@ module "remote_state_locking" {
 
 This creates a `backend.tf` file in the specified `backend_output_path` (default: project directory). Apply the configured backend by running `terraform init` again
 
-## Doc generation
-
-Code formatting and documentation for variables and outputs is generated using [pre-commit-terraform hooks](https://github.com/antonbabenko/pre-commit-terraform) which uses [terraform-docs](https://github.com/segmentio/terraform-docs).
-
-Follow [these instructions](https://github.com/antonbabenko/pre-commit-terraform#how-to-install) to install pre-commit locally.
-
-And install `terraform-docs` with
-```bash
-go get github.com/segmentio/terraform-docs
-```
-or
-```bash
-brew install terraform-docs.
-```
-
 ## Contributing
 
 Report issues/questions/feature requests on in the issues section.
